@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ContactsPdm</string>
+    <string name="name">Name</string>
+    <string name="adress">Adress</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="salvar">Salvar</string>
+</resources>
