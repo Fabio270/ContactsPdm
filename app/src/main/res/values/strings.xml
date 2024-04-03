@@ -5,4 +5,5 @@
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="salvar">Salvar</string>
+    <string name="adicionar_contato">Adicionar Contato</string>
 </resources>
