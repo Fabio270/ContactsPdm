@@ -32,7 +32,7 @@
         android:id="@+id/adressEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/adress"
+        android:hint="@string/address"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
