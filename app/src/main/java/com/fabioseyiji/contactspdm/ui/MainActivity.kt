@@ -1,21 +1,15 @@
 package com.fabioseyiji.contactspdm.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.fabioseyiji.contactspdm.R
+import com.fabioseyiji.contactspdm.adapter.ContactAdapter
 import com.fabioseyiji.contactspdm.databinding.ActivityMainBinding
 import com.fabioseyiji.contactspdm.model.Contact
 
@@ -29,14 +23,8 @@ class MainActivity : AppCompatActivity() {
     //Data source
     private val contactList: MutableList<Contact> = mutableListOf()
 
-    private val contactAdapter: ArrayAdapter<String> by lazy {
-        ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            contactList.map { contact ->
-                contact.toString()
-            }
-        )
+    private val contactAdapter: ContactAdapter by lazy {
+        ContactAdapter(this, contactList)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,38 +50,37 @@ class MainActivity : AppCompatActivity() {
                 }
                 if (contact != null){
                     contactList.add(contact)
-                    contactAdapter.add(contact.toString())
                     contactAdapter.notifyDataSetChanged()
                 }
+            }
         }
     }
-}
 
-override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.menu_main, menu)
-    return true
-}
-
-override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    if (item.itemId == R.id.viewMi) {
-        Intent(this, ContactActivity::class.java).also {
-            carl.launch(it)
-        }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
-    return true
-}
 
-private fun fillContacts() {
-    for (i in 1..10) {
-        contactList.add(
-            Contact(
-                i,
-                "Name $i",
-                "Address $i",
-                "Phone $i",
-                "Email $i"
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.viewMi) {
+            Intent(this, ContactActivity::class.java).also {
+                carl.launch(it)
+            }
+        }
+        return true
+    }
+
+    private fun fillContacts() {
+        for (i in 1..10) {
+            contactList.add(
+                Contact(
+                    i,
+                    "Name $i",
+                    "Address $i",
+                    "Phone $i",
+                    "Email $i"
+                )
             )
-        )
+        }
     }
-}
 }
