@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.fabioseyiji.contactspdm.databinding.ActivityContactBinding
+import com.fabioseyiji.contactspdm.model.Contact
 
-class ContactActivity: AppCompatActivity() {
+class ContactActivity : AppCompatActivity() {
     private val acb: ActivityContactBinding by lazy {
         ActivityContactBinding.inflate(layoutInflater)
     }
@@ -13,18 +14,29 @@ class ContactActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(acb.root)
+        acb.toolbarIn.toolbar.apply {
+            subtitle = this@ContactActivity.javaClass.simpleName
+            setSupportActionBar(this)
+        }
 
-        acb.saveBt.setOnClickListener{
-            val parametros = Bundle()
-            val resultadoIntent = Intent()
-            parametros.putString("name", acb.nameEt.text.toString())
-            parametros.putString("address", acb.adressEt.text.toString())
-            parametros.putString("phone", acb.phoneEt.text.toString())
-            parametros.putString("email", acb.emailEt.text.toString())
-            resultadoIntent.putExtra("bundle", parametros).also {
-                setResult(RESULT_OK, it)
-                finish()
+        with(acb) {
+            saveBt.setOnClickListener {
+                Contact(
+                    id = hashCode(),
+                    name = nameEt.text.toString(),
+                    address = adressEt.text.toString(),
+                    phone = phoneEt.text.toString(),
+                    email = emailEt.text.toString()
+                ).let { contact ->
+                    Intent().apply {
+                        putExtra("EXTRA_CONTACT", contact)
+                        setResult(RESULT_OK, this)
+                        finish()
+                    }
+                }
             }
         }
     }
+
+
 }
