@@ -6,4 +6,6 @@
     <string name="email">Email</string>
     <string name="salvar">Salvar</string>
     <string name="adicionar_contato">Adicionar Contato</string>
+    <string name="remove_contact">Remove Contact</string>
+    <string name="edit_contact">Edit Contact</string>
 </resources>
