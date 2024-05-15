@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.removeContactMi -> {
                 //remover o contato e notificar o adapter
+                contactController.removeContact(contactList[position].id)
                 contactList.removeAt(position)
                 contactAdapter.notifyDataSetChanged()
                 Toast.makeText(this, "Contact removed.", Toast.LENGTH_SHORT).show()
