@@ -3,6 +3,7 @@ package com.fabioseyiji.contactspdm.model
 import android.content.ContentValues
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.fabioseyiji.contactspdm.R
@@ -52,10 +53,16 @@ class ContactDaoSqlite(context: Context) : ContactDao {
     override fun retrieveContacts(): MutableList<Contact> {
         val contactList = mutableListOf<Contact>()
 
-        contactSqliteDatabase.rawQuery(
+        val cursor = contactSqliteDatabase.rawQuery(
             "SELECT * FROM $CONTACT_TABLE ORDER BY $NAME_COLUMN",
             null)
 
+        while (cursor.moveToNext()) {
+            contactList.add(cursor.rowToContact())
+        }
+
+        cursor.close()
+        return contactList
     }
 
     override fun updateContact(contact: Contact) = contactSqliteDatabase.update(
@@ -75,4 +82,12 @@ class ContactDaoSqlite(context: Context) : ContactDao {
         put(PHONE_COLUMN, phone)
         put(EMAIL_COLUMN, email)
     }
+
+    private fun Cursor.rowToContact() = Contact(
+        getInt(getColumnIndexOrThrow(ID_COLUMN)),
+        getString(getColumnIndexOrThrow(NAME_COLUMN)),
+        getString(getColumnIndexOrThrow(ADDRESS_COLUMN)),
+        getString(getColumnIndexOrThrow(PHONE_COLUMN)),
+        getString(getColumnIndexOrThrow(EMAIL_COLUMN))
+    )
 }
