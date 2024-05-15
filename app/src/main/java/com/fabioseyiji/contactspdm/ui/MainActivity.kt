@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var carl: ActivityResultLauncher<Intent>
 
     //Data source
-    private val contactList: MutableList<Contact> = mutableListOf()
+    private val contactList: MutableList<Contact> by lazy {
+        contactController.getContacts()
+    }
 
     private val contactAdapter: ContactAdapter by lazy {
         ContactAdapter(this, contactList)
