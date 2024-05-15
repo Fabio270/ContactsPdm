@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.fabioseyiji.contactspdm.R
 import com.fabioseyiji.contactspdm.adapter.ContactAdapter
+import com.fabioseyiji.contactspdm.controller.ContactController
 import com.fabioseyiji.contactspdm.databinding.ActivityMainBinding
 import com.fabioseyiji.contactspdm.model.Constants.Companion.EXTRA_CONTACT
 import com.fabioseyiji.contactspdm.model.Constants.Companion.EXTRA_VIEW_CONTACT
@@ -33,6 +34,10 @@ class MainActivity : AppCompatActivity() {
 
     private val contactAdapter: ContactAdapter by lazy {
         ContactAdapter(this, contactList)
+    }
+
+    private val contactController: ContactController by lazy{
+        ContactController(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,15 +63,17 @@ class MainActivity : AppCompatActivity() {
                         val position = contactList.indexOfFirst { it.id == newOrEditedContact.id }
                         if (position != -1) {
                             contactList[position] = newOrEditedContact
+                            contactController.editContact(newOrEditedContact)
                         } else {
-                            contactList.add(contact)
+                            val id = contactController.insertContact(newOrEditedContact)
+                            newOrEditedContact.id = id
+                            contactList.add(newOrEditedContact)
                         }
                         contactAdapter.notifyDataSetChanged()
                     }
                 }
             }
 
-        fillContacts()
         registerForContextMenu(amb.contactsLv)
         amb.contactsLv.setOnItemClickListener { _, _, position, _ ->
             val contact = contactList[position]
