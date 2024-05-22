@@ -137,14 +137,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         unregisterForContextMenu(amb.contactsLv)
     }
-
-    private fun fillContacts() {
-        for (i in 1..12) {
-            contactList.add(
-                Contact(
-                    i, "Name $i", "Address $i", "Phone $i", "Email $i"
-                )
-            )
-        }
-    }
 }
